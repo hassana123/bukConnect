@@ -7,8 +7,8 @@ import { BsArrowLeft } from "react-icons/bs";
 const ReportPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const user = JSON.parse(localStorage.getItem("userData"));
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || JSON.parse(sessionStorage.getItem("currentUser"));
+  const user = JSON.parse(localStorage.getItem("userData")) || JSON.parse(sessionStorage.getItem("userData"));
   const [reportSent, setReportSent] = useState(false);
   const [reportDetails, setReportDetails] = useState({
     serviceName: "",
