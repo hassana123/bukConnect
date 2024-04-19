@@ -12,7 +12,14 @@ const Navbar = () => {
           NNECT
         </span>
       </h1>
+
       <div className="flex">
+      <NavLink
+          className=" text-white hover:text-[#0092DB] mx-5"
+          to="/"
+        >
+          Home
+        </NavLink>
         <NavLink
           className="bg-[#0092DB] hover:bg-white hover:text-black px-5 py-3 block rounded-md mx-5"
           to="/sign-up"

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom"; // Assuming you're usin
 import { auth, db } from "../../firebase";
 import { collection, getDoc, doc, orderBy } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import Navbar from "../components/Navbar";
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -67,6 +67,8 @@ const LoginPage = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <section className="py-20 w-[100%] flex text-black  h-screen items-center bg-[#100F0F]">
       <div className="md:w-[35%] w-[98%] rounded-md mx-auto bg-white items-center py-10 px-3">
         <h1 className="text-3xl text-[25px] font-bold mb-4">Login</h1>
@@ -139,6 +141,7 @@ const LoginPage = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

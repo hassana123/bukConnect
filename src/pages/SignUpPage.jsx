@@ -4,13 +4,16 @@ import { auth, db } from "../../firebase";
 import { sendEmailVerification } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import departments from "../components/Department";
+import Navbar from "../components/Navbar";
 const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [department, setDepartment] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
@@ -20,6 +23,11 @@ const SignUpPage = () => {
     // Basic email validation using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(input);
+  };
+  const validateRegNo = (input) => {
+    // Regex pattern for Buk registration number format
+    const regNoRegex = /^[A-Z]{3}\/\d{2}\/[A-Z]{3}\/\d{5}$/;
+    return regNoRegex.test(input);
   };
 
   useEffect(() => {
@@ -32,12 +40,15 @@ const SignUpPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
+
     if (
       !firstName.trim() ||
       !lastName.trim() ||
       !email.trim() ||
       !password.trim() ||
-      !confirmPassword.trim()
+      !confirmPassword.trim() ||
+      !regNo.trim() ||
+      !department.trim()
     ) {
       setError("All fields are required");
       return;
@@ -45,6 +56,11 @@ const SignUpPage = () => {
 
     if (!validateEmail(email)) {
       setError("Invalid email address");
+      return;
+    }
+
+    if (!validateRegNo(regNo)) {
+      setError("Invalid registration number format");
       return;
     }
 
@@ -66,7 +82,8 @@ const SignUpPage = () => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        // Add more details if needed
+        regNo: regNo,
+        department: department,
       };
 
       await setDoc(doc(db, "users", userCredential.user.uid), userDetails);
@@ -88,6 +105,8 @@ const SignUpPage = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <section className="py-10 w-[100%] flex items-center bg-[#100F0F]">
       <div className="md:w-[40%] w-[98%] text-black mx-auto  bg-white rounded-lg py-10 px-3">
         <h1 className="text-3xl font-bold mb-2">SignUp</h1>
@@ -128,6 +147,33 @@ const SignUpPage = () => {
             className="mb-2 p-2 rounded-md block border-[2px]  w-[90%] border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
             required
           />
+           <label htmlFor="" className="text-left font-bold block">
+            Registration Number
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. CST/18/COM/00008"
+            value={regNo}
+            onChange={(e) => setRegNo(e.target.value)}
+            className="mb-2 p-2 block rounded-md border-[2px]  w-[90%] border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+            required
+          />
+          <label htmlFor="" className="text-left font-bold block">
+            Department
+          </label>
+          <select
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+            className="mb-2 p-2 block rounded-md border-[2px]  w-[90%] border-gray-300 bg-transparent focus:outline-none focus:border-blue-500"
+            required
+          >
+            <option value="">Select Department</option>
+            {departments.map((department, index) => (
+              <option key={index} value={department}>
+                {department}
+              </option>
+            ))}
+          </select>
           <label htmlFor="" className="text-left font-bold block">
             Password
           </label>
@@ -176,7 +222,8 @@ const SignUpPage = () => {
         </div>
       </div>
     </section>
-  );
+
+    </>  );
 };
 
 export default SignUpPage;
