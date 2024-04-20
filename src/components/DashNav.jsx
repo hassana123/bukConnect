@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import vector from "../assets/vector.svg";
+import { NavLink } from "react-router-dom";
 const DashNav = ({ handleSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -18,7 +19,9 @@ const DashNav = ({ handleSearch }) => {
           NNECT
         </span>
       </h1>
-      <img className="" src={vector} alt="" />
+      <NavLink to="/edit-profile">
+        <img className="" src={vector} alt="" />
+      </NavLink>
     </nav>
   );
 };

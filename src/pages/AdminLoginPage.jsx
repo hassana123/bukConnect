@@ -26,12 +26,10 @@ const AdminLoginPage = () => {
       const user = userCredential.user;
 
       // Fetch user document from Firestore
-      const userDoc = doc(db, "users", user.uid);
+      const userDoc = doc(db, "admin", user.uid);
       const adminData = await getDoc(userDoc);
       const admin = adminData.data();
       console.log(admin);
-      localStorage.setItem("adminData", JSON.stringify(admin));
-
       // Check if the user is an admin
       if (admin.isAdmin) {
         // Navigate to the admin dashboard
@@ -40,6 +38,7 @@ const AdminLoginPage = () => {
         // User is not an admin, display error message
         setError("You are not authorized to access the admin dashboard.");
       }
+      localStorage.setItem("adminData", JSON.stringify(admin));
     } catch (error) {
       setError(error.message);
     }

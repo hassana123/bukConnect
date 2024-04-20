@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import requireAuthAdmin from "../components/requireAuthAdmin";
-
+import AdminNav from "../components/AdminNav";
 const Allservices = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,6 +44,7 @@ const Allservices = () => {
 
   return (
     <>
+      <AdminNav />
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -59,7 +60,8 @@ const Allservices = () => {
                     <p>{service.service}</p>
                     <p>{service.serviceDescription}</p>
                     <p className="text-gray-500">
-                      Time Posted: {service.timePosted.toDate().toLocaleString()}
+                      Time Posted:{" "}
+                      {service.timePosted.toDate().toLocaleString()}
                     </p>
                   </div>
                   <button
@@ -79,4 +81,3 @@ const Allservices = () => {
 };
 
 export default requireAuthAdmin(Allservices);
-

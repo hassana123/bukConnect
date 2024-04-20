@@ -20,8 +20,10 @@ const Dashboard = () => {
   const [services, setServices] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  console.log(currentUser);
+  const currentUser =
+    JSON.parse(localStorage.getItem("currentUser"))?.uid ||
+    JSON.parse(localStorage.getItem("currentUser"))?.uid;
+  //console.log(currentUser);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -63,10 +65,11 @@ const Dashboard = () => {
     };
     fetchServices();
   }, [services]);
-  
+
   return (
     <main className="bg-[#100F0F] py-5 ">
-      <DashNav  />
+      <DashNav />
+
       <section className="md:flex">
         <DashSideNav />
         <DashHero />

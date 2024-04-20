@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { BsArrowLeft } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import requireAuthAdmin from "../components/requireAuthAdmin";
 const AllReports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch all reports from Firestore
     const fetchReports = async () => {
@@ -45,6 +47,10 @@ const AllReports = () => {
   }
   return (
     <>
+      <BsArrowLeft
+        className="cursor-pointer text-[35px] font-bold mx-5"
+        onClick={() => navigate("/admin")}
+      />
       <div className="my-10">
         <div className="md:flex justify-between items-center"></div>
         {reports.length == 0 ? (
